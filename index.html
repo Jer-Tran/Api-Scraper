@@ -14,16 +14,26 @@
         <div>
             <h2>Link / URL</h2>
             <span>URL:</span>
-            <input type="text">
+            <input type="text" id="input">
+            <button id="button">Fetch</button>
+            <br>
+            <span>Tab size</span><input id="tabSize" type="number" value="4">
+        </div>
+
+        <div>
+            <h2>Info</h2>
+            <div id="info">
+
+            </div>
         </div>
 
         <div>
             <h2>
                 Contents
             </h2>
-            <div>
+            <pre id="content">
                 Content
-            </div>
+            </pre>
         </div>
         
         <script src="./main.js" type="module"></script>
