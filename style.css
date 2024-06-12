@@ -1,3 +1,10 @@
 div {
     border: 1px solid black;
 }
+.key * {
+    position: relative;
+    margin-left: 30px;
+}
+.key:nth-child(0) {
+    margin-left: 0px;
+}
