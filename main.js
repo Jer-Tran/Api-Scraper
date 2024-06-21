@@ -1,3 +1,5 @@
+import { saveTextAsFile } from "./download.js"
+
 var _content
 var _structure
 var _tabSize = 4
@@ -17,9 +19,6 @@ function checkKeys() {
     d = searchKeys(d, _content)
     d.classList = []
     _structure = searchStructs(_content)
-    // delete _structure["60"]
-    // console.log(_structure)
-    // console.log(_content)
 }
 
 function searchKeys(elem, obj) {
@@ -37,7 +36,6 @@ function searchKeys(elem, obj) {
     else if (obj.constructor != Object) {
         return elem
     }
-    console.log(obj)
     try {
         let keys =  Object.keys(obj)
         for (let i in keys) {
@@ -51,7 +49,6 @@ function searchKeys(elem, obj) {
             x.appendChild(c)
             x.appendChild(p)
 
-            console.log(obj[keys[i]])
             x = searchKeys(x, obj[keys[i]])
             elem.appendChild(x)
         }
@@ -104,9 +101,7 @@ function setContent(res) {
 
 function filterContent(content, filter) {
     // If content is a list
-    console.log(content)
     if (Array.isArray(content)) {
-        console.log("d")
         var _res = []
         for (let i in content) {
             _res.push(filterContent(content[i], filter))
@@ -114,15 +109,12 @@ function filterContent(content, filter) {
         return _res
     }
     else if (content.constructor != Object) {
-        console.log("c")
         return content
     }
     else if (content == null) {
-        console.log("b")
         return null
     }
     else {
-        console.log("a")
         var _res = {}
         let keys = Object.keys(filter)
         let x = Object.keys(content)
@@ -142,7 +134,6 @@ function displayContent() {
 
 function getContent() {
     let x = document.getElementById("input").value
-    console.log(x)
     fetch(x).then(res => {return res.json()}).then(res => setContent(res)).catch(e => doError(e))
 }
 
@@ -151,11 +142,19 @@ function reDisplay() {
     displayContent()
 }
 
+function downloadContent() {
+    var content = document.getElementById("content").innerText
+    if (content != "") {   
+        saveTextAsFile(content, "file.json")
+    }
+}
+
 // https://jer-tran.github.io/Mitigation-Planar/instances/test.json
 // http://127.0.0.1:5500/test.json
 
 document.getElementById("button").onclick = getContent
 document.getElementById("tabSize").onchange = updateTabSize
+document.getElementById("dl").onclick = downloadContent
 
 document.getElementById("a").onclick = searchStructs
 document.getElementById("b").onclick = displayContent
